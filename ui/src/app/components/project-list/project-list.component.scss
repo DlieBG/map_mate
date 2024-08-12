@@ -10,5 +10,72 @@
 }
 
 .body {
-    margin: 1em;
+    margin: 0 1em 1em 1em;
+
+    .user {
+        .input {
+            display: flex;
+            flex-direction: column;
+            width: 420px;
+        }
+    }
+
+    .heading {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .list {
+        display: flex;
+        justify-content: space-evenly;
+        flex-wrap: wrap;
+        gap: 2em;
+
+        .project {
+            border: 1px solid grey;
+            border-radius: 8px;
+            padding: 0 1em 1em 1em;
+            min-width: 420px;
+            background-color: #323232;
+            cursor: pointer;
+
+            .title {
+                display: flex;
+                justify-content: space-between;
+                align-items: baseline;
+            cursor: pointer;
+            
+                h3 {
+                    margin-bottom: 0;
+                }
+
+                mat-icon {
+                    color: gold;
+                }
+            }
+        }
+    }
+
+    .loading {
+        display: flex;
+        justify-content: center;
+    }
+
+    .user-info {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        display: flex;
+        align-items: baseline;
+        
+        pre {
+            margin: 1em;
+        
+            &:hover {
+                cursor: pointer;
+                text-decoration: underline;
+            }
+        }
+    }
 }
