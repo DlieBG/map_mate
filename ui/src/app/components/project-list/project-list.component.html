@@ -12,5 +12,75 @@
 </mat-toolbar>
 
 <div class="body">
+    @if (!userService.getUser(false)) {
+    <div class="user">
+        <h2>
+            Hello mate!
+        </h2>
 
+        <p>
+            Welcome to Map Mate!
+        </p>
+        <p>
+            First of all let me know your name!
+        </p>
+
+        <div class="input">
+            <mat-form-field appearance="outline" color="accent">
+                <mat-label>Username</mat-label>
+                <input matInput #name (keydown.enter)="userService.setUser(name.value)">
+                <mat-icon matSuffix>person</mat-icon>
+            </mat-form-field>
+
+            <button mat-flat-button color="accent" (click)="userService.setUser(name.value)">
+                <mat-icon>save</mat-icon>
+                Save username
+            </button>
+        </div>
+    </div>
+    }
+    @else {
+    <div class="heading">
+        <h2>
+            Select project
+        </h2>
+
+        <button mat-stroked-button color="accent" (click)="createProject()">
+            <mat-icon>add</mat-icon>
+            Create project
+        </button>
+    </div>
+
+    @if (projects$ | async; as projects) {
+    <div class="list">
+        @for (project of projects; track $index) {
+        <div class="project" [routerLink]="project._id">
+            <div class="title">
+                <h3>
+                    {{ project.name }}
+                </h3>
+
+                @if (project.goal) {
+                <mat-icon>verified</mat-icon>
+                }
+            </div>
+
+            <p>
+                {{ project.description }}
+            </p>
+        </div>
+        }
+    </div>
+    }
+    @else {
+    <div class="loading">
+        <mat-spinner color="accent" diameter="50"></mat-spinner>
+    </div>
+    }
+
+    <div class="user-info">
+        Currently logged in as: 
+        <pre matTooltip="Reset username" (click)="userService.resetUser()">{{ userService.getUser(false) }}</pre>
+    </div>
+    }
 </div>
