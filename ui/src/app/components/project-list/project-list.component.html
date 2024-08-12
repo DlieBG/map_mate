@@ -12,7 +12,7 @@
 </mat-toolbar>
 
 <div class="body">
-    @if (!userService.getUser()) {
+    @if (!userService.getUser(false)) {
     <div class="user">
         <h2>
             Hello mate!
@@ -80,7 +80,7 @@
 
     <div class="user-info">
         Currently logged in as: 
-        <pre matTooltip="Reset username" (click)="userService.resetUser()">{{ userService.getUser() }}</pre>
+        <pre matTooltip="Reset username" (click)="userService.resetUser()">{{ userService.getUser(false) }}</pre>
     </div>
     }
 </div>

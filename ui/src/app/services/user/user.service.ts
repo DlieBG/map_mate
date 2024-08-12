@@ -1,14 +1,22 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Injectable({
     providedIn: 'root'
 })
 export class UserService {
 
-    constructor() { }
+    constructor(
+        private router: Router,
+    ) { }
 
-    getUser(): string | null {
-        return window.localStorage.getItem('map_mate_user');
+    getUser(redirect: boolean = true): string | null {
+        const user = window.localStorage.getItem('map_mate_user');
+
+        if (redirect && !user)
+            this.router.navigate(['/']);
+
+        return user;
     }
 
     setUser(user: string) {
