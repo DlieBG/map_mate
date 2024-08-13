@@ -31,7 +31,10 @@ export class ProjectListComponent implements OnInit {
 
     createProject() {
         this.dialog
-            .open(ProjectCreateComponent)
+            .open(ProjectCreateComponent, {
+                width: 'calc(690px + 2em)',
+                maxWidth: 'calc(690px + 2em)',
+            })
             .afterClosed()
             .subscribe(
                 () => {
