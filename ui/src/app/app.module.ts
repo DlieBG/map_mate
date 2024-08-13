@@ -23,6 +23,8 @@ import { ProjectForumComponent } from './components/project-forum/project-forum.
 import { ProjectComponent } from './components/project/project.component';
 import { ProjectMapComponent } from './components/project-map/project-map.component';
 import { ProjectCreateComponent } from './components/project-create/project-create.component';
+import { ProjectStreetviewComponent } from './components/project-streetview/project-streetview.component';
+import { ProjectMap3dComponent } from './components/project-map3d/project-map3d.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,9 @@ import { ProjectCreateComponent } from './components/project-create/project-crea
     ProjectForumComponent,
     ProjectComponent,
     ProjectMapComponent,
-    ProjectCreateComponent
+    ProjectCreateComponent,
+    ProjectStreetviewComponent,
+    ProjectMap3dComponent
   ],
   imports: [
     BrowserModule,

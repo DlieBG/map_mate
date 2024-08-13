@@ -6,17 +6,27 @@
 
     <span class="spacer"></span>
 
-    <button mat-icon-button matTooltip="Goto project overview" routerLink="/">
-        <mat-icon>dataset</mat-icon>
-    </button>
     <button mat-icon-button matTooltip="Edit project">
         <mat-icon>settings</mat-icon>
     </button>
-    <button mat-icon-button matTooltip="Open notes">
+    <button mat-icon-button matTooltip="Open street view" (click)="openPopup('streetview')">
+        <mat-icon>man</mat-icon>
+    </button>
+    <button mat-icon-button matTooltip="Open 3D map" (click)="openPopup('3d')">
+        <mat-icon>view_in_ar</mat-icon>
+    </button>
+    <button mat-icon-button matTooltip="Open notes" (click)="openPopup('forum')">
         <mat-icon>forum</mat-icon>
     </button>
 </mat-toolbar>
 
 <div class="body">
-    <app-project-map></app-project-map>
+    @if (project$ | async; as project;) {
+    <app-project-map [project]="project"></app-project-map>
+    }
+    @else {
+    <div class="loading">
+        <mat-spinner color="accent" diameter="50"></mat-spinner>
+    </div>
+    }
 </div>
