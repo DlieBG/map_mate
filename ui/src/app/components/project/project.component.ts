@@ -1,20 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { Project } from '../../types/project.type';
 import { ProjectService } from '../../services/project/project.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ProjectEditComponent } from '../project-edit/project-edit.component';
 
 @Component({
     selector: 'app-project',
     templateUrl: './project.component.html',
     styleUrl: './project.component.scss'
 })
-export class ProjectComponent implements OnInit {
+export class ProjectComponent implements OnInit, OnDestroy {
 
-    id!: string;
     project$!: Observable<Project>;
+    project!: Project;
+
+    windows: (WindowProxy | null)[] = [];
 
     constructor(
+        private dialog: MatDialog,
         private route: ActivatedRoute,
         private projectService: ProjectService,
     ) { }
@@ -22,21 +27,50 @@ export class ProjectComponent implements OnInit {
     ngOnInit(): void {
         this.route.params.subscribe(
             (params) => {
-                this.id = params['id'];
-                this.getProject();
+                this.getProject(params['id']);
             }
         );
     }
 
-    getProject() {
-        this.project$ = this.projectService.get_project(this.id);
+    ngOnDestroy(): void {
+        for (let window of this.windows)
+            window?.close();
+    }
+
+    getProject(id: string) {
+        this.project$ = this.projectService
+            .get_project(id)
+            .pipe(
+                tap(
+                    (project) => {
+                        this.project = project;
+                    }
+                )
+            );
+    }
+
+    editProject() {
+        this.dialog
+            .open(ProjectEditComponent, {
+                width: 'calc(690px + 2em)',
+                maxWidth: 'calc(690px + 2em)',
+                data: this.project,
+            })
+            .afterClosed()
+            .subscribe(
+                () => {
+                    this.getProject(this.project._id);
+                }
+            );
     }
 
     openPopup(path: string) {
-        window.open(
-            `${this.id}/${path}`,
-            path,
-            'width=1200,height=800,left=100,top=100',
+        this.windows.push(
+            window.open(
+                `${this.project._id}/${path}`,
+                path,
+                'width=1200,height=800,left=100,top=100',
+            )
         );
     }
 

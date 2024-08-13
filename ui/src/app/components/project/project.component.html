@@ -6,16 +6,16 @@
 
     <span class="spacer"></span>
 
-    <button mat-icon-button matTooltip="Edit project">
+    <button mat-icon-button matTooltip="Edit project" (click)="editProject()" [disabled]="!project">
         <mat-icon>settings</mat-icon>
     </button>
-    <button mat-icon-button matTooltip="Open street view" (click)="openPopup('streetview')">
+    <button mat-icon-button matTooltip="Open street view" (click)="openPopup('streetview')" [disabled]="!project">
         <mat-icon>man</mat-icon>
     </button>
-    <button mat-icon-button matTooltip="Open 3D map" (click)="openPopup('3d')">
+    <button mat-icon-button matTooltip="Open 3D map" (click)="openPopup('3d')" [disabled]="!project">
         <mat-icon>view_in_ar</mat-icon>
     </button>
-    <button mat-icon-button matTooltip="Open notes" (click)="openPopup('forum')">
+    <button mat-icon-button matTooltip="Open notes" (click)="openPopup('forum')" [disabled]="!project">
         <mat-icon>forum</mat-icon>
     </button>
 </mat-toolbar>

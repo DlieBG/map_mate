@@ -25,6 +25,7 @@ import { ProjectMapComponent } from './components/project-map/project-map.compon
 import { ProjectCreateComponent } from './components/project-create/project-create.component';
 import { ProjectStreetviewComponent } from './components/project-streetview/project-streetview.component';
 import { ProjectMap3dComponent } from './components/project-map3d/project-map3d.component';
+import { ProjectEditComponent } from './components/project-edit/project-edit.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { ProjectMap3dComponent } from './components/project-map3d/project-map3d.
     ProjectMapComponent,
     ProjectCreateComponent,
     ProjectStreetviewComponent,
-    ProjectMap3dComponent
+    ProjectMap3dComponent,
+    ProjectEditComponent,
   ],
   imports: [
     BrowserModule,
