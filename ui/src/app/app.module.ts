@@ -3,6 +3,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
+import { GoogleMapsModule } from "@angular/google-maps";
+
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -37,6 +39,7 @@ import { ProjectCreateComponent } from './components/project-create/project-crea
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
+    GoogleMapsModule,
     MatToolbarModule,
     MatIconModule,
     MatButtonModule,
