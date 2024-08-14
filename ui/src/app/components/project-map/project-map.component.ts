@@ -51,13 +51,17 @@ export class ProjectMapComponent implements OnInit {
     }
 
     mapInitialized() {
-        this.map
-            .getStreetView()
-            .addListener('position_changed', () => {
-                this.syncService.setStreetViewPosition(this.map.getStreetView().getPosition(), true);
+        try {
+            this.map
+                .getStreetView()
+                .addListener('position_changed', () => {
+                    this.syncService.setStreetViewPosition(this.map.getStreetView().getPosition(), true);
 
-                this.map.getStreetView().setVisible(false);
-            });
+                    this.map.getStreetView().setVisible(false);
+                });
+        } catch {
+            setTimeout(this.mapInitialized.bind(this), 1000);
+        }
     }
 
     boundsChanged() {
