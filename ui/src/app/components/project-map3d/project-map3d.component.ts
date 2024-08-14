@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { SyncService } from '../../services/sync/sync.service';
 import { filter, map, take } from 'rxjs';
+import { Title } from '@angular/platform-browser';
 
 @Component({
     selector: 'app-project-map3d',
@@ -13,10 +14,13 @@ export class ProjectMap3dComponent implements OnInit {
     map3d!: any;
 
     constructor(
+        private title: Title,
         private syncService: SyncService,
     ) { }
 
     ngOnInit(): void {
+        this.title.setTitle('3D Map - Map Mate');
+        
         this.syncService.mapCenterPosition$
             .pipe(
                 filter(

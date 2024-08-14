@@ -6,6 +6,7 @@ import { ProjectService } from '../../services/project/project.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ProjectEditComponent } from '../project-edit/project-edit.component';
 import { SyncService } from '../../services/sync/sync.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
     selector: 'app-project',
@@ -20,6 +21,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
     windows: (WindowProxy | null)[] = [];
 
     constructor(
+        private title: Title,
         private dialog: MatDialog,
         private route: ActivatedRoute,
         private projectService: ProjectService,
@@ -50,6 +52,8 @@ export class ProjectComponent implements OnInit, OnDestroy {
                 tap(
                     (project) => {
                         this.project = project;
+
+                        this.title.setTitle(`Project ${project.name} - Map Mate`);
                     }
                 )
             );
