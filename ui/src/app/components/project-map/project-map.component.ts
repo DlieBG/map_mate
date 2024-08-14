@@ -2,6 +2,7 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { GoogleMap } from '@angular/google-maps';
 import { Project } from '../../types/project.type';
 import { SyncService } from '../../services/sync/sync.service';
+import { take } from 'rxjs';
 
 @Component({
     selector: 'app-project-map',
@@ -54,6 +55,19 @@ export class ProjectMapComponent implements OnInit {
 
     boundsChanged() {
         console.log(this.map.getCenter()?.lat(), this.map.getCenter()?.lng(), this.map.getZoom());
+    }
+
+    panToStreetView() {
+        this.syncService.streetViewPosition$
+            .pipe(
+                take(1)
+            )
+            .subscribe(
+                (position) => {
+                    if (position)
+                        this.map.panTo(position);
+                }
+            );
     }
 
 }

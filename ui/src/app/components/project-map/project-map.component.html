@@ -2,15 +2,16 @@
     <div class="map">
         <google-map width="100%" height="100%" [options]="options" (mapInitialized)="mapInitialized()"
             (boundsChanged)="boundsChanged()" #map>
-            @if (syncService.streetViewPosition$ | async; as streetViewPosition) {
-            @if (streetViewPosition) {
+            @if (syncService.streetViewPosition$ | async; as streetViewPosition;) {
             <map-marker [position]="streetViewPosition" [label]="streetViewLabel" />
-            }
             }
         </google-map>
     </div>
 
     <div class="control">
-        Map Controls...
+        <button mat-stroked-button color="accent" (click)="panToStreetView()" [disabled]="!(syncService.streetViewPosition$ | async)">
+            <mat-icon>man</mat-icon>
+            Move to street view position
+        </button>
     </div>
 </div>
