@@ -17,6 +17,12 @@ export class ProjectStreetviewComponent {
 
     mapInitialized() {
         this.streetview.getStreetView().setVisible(true);
+        
+        this.streetview
+            .getStreetView()
+            .addListener('position_changed', () => {
+                this.syncService.setStreetViewPosition(this.streetview.getStreetView().getPosition());
+            });
 
         this.syncService.streetViewPosition$.subscribe(
             (value) => {

@@ -16,24 +16,23 @@ export class SyncService {
 
     private storageEventListener(event: StorageEvent) {
         if (event.storageArea == localStorage)
-            switch(event.key) {
+            switch (event.key) {
                 case STREET_VIEW_POSITION:
-                    this.streetViewPosition$.next(JSON.parse(event.newValue || 'null'));
+                    this.streetViewPosition$.next(JSON.parse(localStorage.getItem(STREET_VIEW_POSITION) || 'null'));
                     break;
             }
     }
 
-    setStreetViewPosition(value: google.maps.LatLng | null = null) {
-        if (!value)
-            return localStorage.removeItem(STREET_VIEW_POSITION);
+    setStreetViewPosition(value: google.maps.LatLng | null = null, update: boolean = false) {
+        const position = value ? {
+            lat: value?.lat(),
+            lng: value?.lng(),
+        } : null;
 
-        localStorage.setItem(
-            STREET_VIEW_POSITION,
-            JSON.stringify({
-                lat: value?.lat(),
-                lng: value?.lng(),
-            }),
-        );
+        localStorage.setItem(STREET_VIEW_POSITION, JSON.stringify(position));
+
+        if (update)
+            this.streetViewPosition$.next(position);
     }
 
     clearAll() {

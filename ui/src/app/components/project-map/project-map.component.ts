@@ -16,8 +16,15 @@ export class ProjectMapComponent implements OnInit {
 
     options!: google.maps.MapOptions;
 
+    streetViewLabel = {
+        text: "\ue4eb",
+        fontFamily: "Material Icons",
+        color: "#ffffff",
+        fontSize: "24px",
+    };
+
     constructor(
-        private syncService: SyncService,
+        public syncService: SyncService,
     ) { }
 
     ngOnInit(): void {
@@ -38,10 +45,8 @@ export class ProjectMapComponent implements OnInit {
     mapInitialized() {
         this.map
             .getStreetView()
-            .addListener('pano_changed', () => {
-                this.syncService.setStreetViewPosition(
-                    this.map.getStreetView().getPosition()
-                );
+            .addListener('position_changed', () => {
+                this.syncService.setStreetViewPosition(this.map.getStreetView().getPosition(), true);
 
                 this.map.getStreetView().setVisible(false);
             });
