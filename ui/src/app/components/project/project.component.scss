@@ -2,7 +2,13 @@
     display: flex;
     gap: .5em;
     align-items: center;
-    cursor: default;
+    padding: .25em;
+    cursor: pointer;
+
+    &:hover {
+        background-color: #e0e3e214;
+        border-radius: 12px;
+    }
 }
 
 .spacer {
@@ -10,5 +16,10 @@
 }
 
 .body {
-    margin: 1em;
+    height: calc(100% - 64px);
+
+    .loading {
+        display: flex;
+        justify-content: center;
+    }
 }

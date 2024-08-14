@@ -16,6 +16,10 @@ export class ProjectService {
         return this.httpClient.get<Project[]>('api/project/');
     }
 
+    get_project(id: string): Observable<Project> {
+        return this.httpClient.get<Project>(`api/project/${id}`);
+    }
+
     create_project(project: ProjectDto): Observable<null> {
         return this.httpClient.post<null>('api/project/', project);
     }

@@ -1,0 +1,11 @@
+<div class="body">
+    @if (initialized$ | async) {
+    <google-map width="100%" height="100%" (mapInitialized)="mapInitialized()" (mapMouseover)="close()" #streetview>
+    </google-map>
+    }
+    @else {
+    <div class="loading">
+        <mat-spinner color="accent" diameter="50"></mat-spinner>
+    </div>
+    }
+</div>

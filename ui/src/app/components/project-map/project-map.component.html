@@ -1,1 +1,24 @@
-<p>project-map works!</p>
+<div class="body">
+    <div class="map">
+        <google-map width="100%" height="100%" [options]="options" (mapInitialized)="mapInitialized()"
+            (boundsChanged)="boundsChanged()" #map>
+            @if (syncService.streetViewPosition$ | async; as streetViewPosition;) {
+            <map-marker [position]="streetViewPosition" [label]="streetViewLabel" />
+            }
+            @if (syncService.map3dCenterPosition$| async; as map3dCenterPosition;) {
+            <map-marker [position]="map3dCenterPosition" [label]="map3dLabel" />
+            }
+        </google-map>
+    </div>
+
+    <div class="control">
+        <button mat-stroked-button color="accent" (click)="panToStreetView()" [disabled]="!(syncService.streetViewPosition$ | async)">
+            <mat-icon>man</mat-icon>
+            Move to street view position
+        </button>
+        <button mat-stroked-button color="accent" (click)="panToMap3dCenter()" [disabled]="!(syncService.map3dCenterPosition$ | async)">
+            <mat-icon>3d_rotation</mat-icon>
+            Move to 3d map position
+        </button>
+    </div>
+</div>

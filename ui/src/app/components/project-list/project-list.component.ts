@@ -5,6 +5,7 @@ import { Project } from '../../types/project.type';
 import { MatDialog } from '@angular/material/dialog';
 import { ProjectCreateComponent } from '../project-create/project-create.component';
 import { UserService } from '../../services/user/user.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
     selector: 'app-project-list',
@@ -16,12 +17,15 @@ export class ProjectListComponent implements OnInit {
     projects$!: Observable<Project[]>;
 
     constructor(
+        private title: Title,
         private dialog: MatDialog,
         private projectService: ProjectService,
         public userService: UserService,
     ) { }
 
     ngOnInit(): void {
+        this.title.setTitle('Project List - Map Mate');
+
         this.getProjects();
     }
 
@@ -31,7 +35,10 @@ export class ProjectListComponent implements OnInit {
 
     createProject() {
         this.dialog
-            .open(ProjectCreateComponent)
+            .open(ProjectCreateComponent, {
+                width: 'calc(690px + 2em)',
+                maxWidth: 'calc(690px + 2em)',
+            })
             .afterClosed()
             .subscribe(
                 () => {

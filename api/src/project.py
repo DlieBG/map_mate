@@ -16,6 +16,18 @@ def get_projects() -> list[Project]:
         db.projects.find()
     ]
 
+@router.get('/{id}')
+def get_project(id: str) -> Project:
+    return Project.model_validate(
+        obj=db.projects.find_one(
+            filter={
+                '_id': ObjectId(
+                    oid=id,
+                )
+            }
+        ),
+    )
+
 @router.post('/')
 def create_project(project: ProjectDto):
     db.projects.insert_one(
