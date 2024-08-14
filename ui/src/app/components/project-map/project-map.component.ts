@@ -54,7 +54,7 @@ export class ProjectMapComponent implements OnInit {
     }
 
     boundsChanged() {
-        console.log(this.map.getCenter()?.lat(), this.map.getCenter()?.lng(), this.map.getZoom());
+        this.syncService.setMapCenterPosition(this.map.getCenter());
     }
 
     panToStreetView() {

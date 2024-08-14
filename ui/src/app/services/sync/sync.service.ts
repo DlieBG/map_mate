@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
+const MAP_CENTER_POSITION = 'mapCenterPosition';
 const STREET_VIEW_POSITION = 'streetViewPosition';
 
 @Injectable({
@@ -8,6 +9,7 @@ const STREET_VIEW_POSITION = 'streetViewPosition';
 })
 export class SyncService {
 
+    mapCenterPosition$ = new BehaviorSubject<google.maps.LatLngLiteral | null>(JSON.parse(localStorage.getItem(MAP_CENTER_POSITION) || 'null'));
     streetViewPosition$ = new BehaviorSubject<google.maps.LatLngLiteral | null>(JSON.parse(localStorage.getItem(STREET_VIEW_POSITION) || 'null'));
 
     constructor() {
@@ -17,10 +19,25 @@ export class SyncService {
     private storageEventListener(event: StorageEvent) {
         if (event.storageArea == localStorage)
             switch (event.key) {
+                case MAP_CENTER_POSITION:
+                    this.mapCenterPosition$.next(JSON.parse(localStorage.getItem(MAP_CENTER_POSITION) || 'null'));
+                    break;
                 case STREET_VIEW_POSITION:
                     this.streetViewPosition$.next(JSON.parse(localStorage.getItem(STREET_VIEW_POSITION) || 'null'));
                     break;
             }
+    }
+
+    setMapCenterPosition(value: google.maps.LatLng | null = null, update: boolean = false) {
+        const position = value ? {
+            lat: value?.lat(),
+            lng: value?.lng(),
+        } : null;
+
+        localStorage.setItem(MAP_CENTER_POSITION, JSON.stringify(position));
+
+        if (update)
+            this.mapCenterPosition$.next(position);
     }
 
     setStreetViewPosition(value: google.maps.LatLng | null = null, update: boolean = false) {
@@ -36,6 +53,7 @@ export class SyncService {
     }
 
     clearAll() {
+        this.setMapCenterPosition();
         this.setStreetViewPosition();
     }
 
