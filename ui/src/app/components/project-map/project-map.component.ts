@@ -24,6 +24,13 @@ export class ProjectMapComponent implements OnInit {
         fontSize: "24px",
     };
 
+    map3dLabel = {
+        text: "\ue84d",
+        fontFamily: "Material Icons",
+        color: "#ffffff",
+        fontSize: "24px",
+    };
+
     constructor(
         public syncService: SyncService,
     ) { }
@@ -59,6 +66,19 @@ export class ProjectMapComponent implements OnInit {
 
     panToStreetView() {
         this.syncService.streetViewPosition$
+            .pipe(
+                take(1)
+            )
+            .subscribe(
+                (position) => {
+                    if (position)
+                        this.map.panTo(position);
+                }
+            );
+    }
+
+    panToMap3dCenter() {
+        this.syncService.map3dCenterPosition$
             .pipe(
                 take(1)
             )
