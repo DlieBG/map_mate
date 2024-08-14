@@ -11,7 +11,7 @@ export class UserService {
     ) { }
 
     getUser(redirect: boolean = true): string | null {
-        const user = window.localStorage.getItem('map_mate_user');
+        const user = localStorage.getItem('map_mate_user');
 
         if (redirect && !user)
             this.router.navigate(['/']);
@@ -20,11 +20,11 @@ export class UserService {
     }
 
     setUser(user: string) {
-        window.localStorage.setItem('map_mate_user', user);
+        localStorage.setItem('map_mate_user', user);
     }
 
     resetUser() {
-        window.localStorage.removeItem('map_mate_user');
+        localStorage.removeItem('map_mate_user');
     }
 
 }

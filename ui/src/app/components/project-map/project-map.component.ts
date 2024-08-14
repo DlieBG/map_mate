@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { GoogleMap } from '@angular/google-maps';
 import { Project } from '../../types/project.type';
+import { SyncService } from '../../services/sync/sync.service';
 
 @Component({
     selector: 'app-project-map',
@@ -15,12 +16,15 @@ export class ProjectMapComponent implements OnInit {
 
     options!: google.maps.MapOptions;
 
+    constructor(
+        private syncService: SyncService,
+    ) { }
+
     ngOnInit(): void {
         this.options = {
             mapTypeId: 'hybrid',
             mapTypeControl: false,
             fullscreenControl: false,
-            streetViewControl: false,
             zoomControl: false,
 
             center: {
@@ -29,6 +33,18 @@ export class ProjectMapComponent implements OnInit {
             },
             zoom: this.project.view.zoom,
         };
+    }
+
+    mapInitialized() {
+        this.map
+            .getStreetView()
+            .addListener('pano_changed', () => {
+                this.syncService.setStreetViewPosition(
+                    this.map.getStreetView().getPosition()
+                );
+
+                this.map.getStreetView().setVisible(false);
+            });
     }
 
     boundsChanged() {

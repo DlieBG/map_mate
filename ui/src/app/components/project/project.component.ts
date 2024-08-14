@@ -5,6 +5,7 @@ import { Project } from '../../types/project.type';
 import { ProjectService } from '../../services/project/project.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ProjectEditComponent } from '../project-edit/project-edit.component';
+import { SyncService } from '../../services/sync/sync.service';
 
 @Component({
     selector: 'app-project',
@@ -22,6 +23,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
         private dialog: MatDialog,
         private route: ActivatedRoute,
         private projectService: ProjectService,
+        private syncService: SyncService,
     ) { }
 
     ngOnInit(): void {
@@ -30,11 +32,15 @@ export class ProjectComponent implements OnInit, OnDestroy {
                 this.getProject(params['id']);
             }
         );
+        
+        this.syncService.clearAll();
     }
 
     ngOnDestroy(): void {
         for (let window of this.windows)
             window?.close();
+
+        this.syncService.clearAll();
     }
 
     getProject(id: string) {
@@ -64,10 +70,10 @@ export class ProjectComponent implements OnInit, OnDestroy {
             );
     }
 
-    openPopup(path: string) {
+    openPopup(path: string, includeId: boolean = false) {
         this.windows.push(
             window.open(
-                `${this.project._id}/${path}`,
+                includeId ? `${this.project._id}/${path}` : path,
                 path,
                 'width=1200,height=800,left=100,top=100',
             )

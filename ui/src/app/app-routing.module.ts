@@ -12,20 +12,20 @@ const routes: Routes = [
         component: ProjectListComponent,
     },
     {
-        path: ':id',
-        component: ProjectComponent,
-    },
-    {
-        path: ':id/streetview',
+        path: 'streetview',
         component: ProjectStreetviewComponent,
     },
     {
-        path: ':id/3d',
+        path: '3d',
         component: ProjectMap3dComponent,
     },
     {
         path: ':id/forum',
         component: ProjectForumComponent,
+    },
+    {
+        path: ':id',
+        component: ProjectComponent,
     },
 ];
 
