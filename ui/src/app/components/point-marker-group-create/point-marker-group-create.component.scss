@@ -1,0 +1,9 @@
+.body {
+    margin: 1em;
+    min-width: 420px;
+
+    .input {
+        display: flex;
+        flex-direction: column;
+    }
+}

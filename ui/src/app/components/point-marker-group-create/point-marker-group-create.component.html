@@ -1,0 +1,24 @@
+<div class="body">
+    <h2>
+        Create Point Marker Group
+    </h2>
+
+    <div class="input">
+        <mat-form-field appearance="outline" color="accent">
+            <mat-label>Name</mat-label>
+            <input matInput [(ngModel)]="pointMarkerGroup.name">
+            <mat-icon matSuffix>badge</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" color="accent">
+            <mat-label>Color</mat-label>
+            <input matInput type="color" [(ngModel)]="pointMarkerGroup.color">
+            <mat-icon matSuffix>palette</mat-icon>
+        </mat-form-field>
+
+        <button mat-flat-button color="accent" (click)="create()" [disabled]="!pointMarkerGroup.name">
+            <mat-icon>add</mat-icon>
+            Create point marker group
+        </button>
+    </div>
+</div>

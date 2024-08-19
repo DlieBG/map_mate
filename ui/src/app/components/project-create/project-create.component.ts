@@ -64,7 +64,7 @@ export class ProjectCreateComponent {
             .subscribe(
                 () => {
                     this.snackbar.open('Project created successfully', '', {
-                        duration: 3000
+                        duration: 3000,
                     });
 
                     this.dialog.close();
