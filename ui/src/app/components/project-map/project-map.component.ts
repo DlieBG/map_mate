@@ -3,10 +3,11 @@ import { GoogleMap } from '@angular/google-maps';
 import { Project } from '../../types/project.type';
 import { SyncService } from '../../services/sync/sync.service';
 import { Observable, take, tap } from 'rxjs';
-import { ExpandedPointMarkerGroup, PointMarker, PointMarkerGroup } from '../../types/point.type';
+import { ExpandedPointMarkerGroup, PointMarkerGroup } from '../../types/point.type';
 import { PointService } from '../../services/point/point.service';
 import { MatDialog } from '@angular/material/dialog';
 import { PointMarkerGroupCreateComponent } from '../point-marker-group-create/point-marker-group-create.component';
+import { MatExpansionPanel } from '@angular/material/expansion';
 
 @Component({
     selector: 'app-project-map',
@@ -196,6 +197,17 @@ export class ProjectMapComponent implements OnInit {
                 delete this.activePointMarkerGroup;
             }
         }, expanded ? 10 : 0);
+    }
+
+    pointMarkerGroupVisibleChange(panel: MatExpansionPanel, pointMarkerGroup: PointMarkerGroup) {
+        panel.open();
+
+        let previousState = this.expandedPointMarkerGroups.get(pointMarkerGroup._id) as ExpandedPointMarkerGroup;
+                            
+        this.expandedPointMarkerGroups.set(pointMarkerGroup._id, {
+            ...previousState,
+            visible: !previousState.visible,
+        });
     }
 
 }

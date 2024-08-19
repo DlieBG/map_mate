@@ -49,10 +49,18 @@
             @if (pointMarkerGroups$ | async; as pointMarkerGroups) {
             <mat-accordion>
                 @for (pointMarkerGroup of pointMarkerGroups; track $index) {
-                <mat-expansion-panel (expandedChange)="pointMarkerGroupExpandedChange($event, pointMarkerGroup)">
+                <mat-expansion-panel (expandedChange)="pointMarkerGroupExpandedChange($event, pointMarkerGroup)" #panel>
                     <mat-expansion-panel-header>
                         <mat-panel-title>
                             <div class="color" [style.background-color]="pointMarkerGroup.color"></div>
+                            <button mat-icon-button class="visibility" (click)="pointMarkerGroupVisibleChange(panel, pointMarkerGroup)">
+                                @if (expandedPointMarkerGroups.get(pointMarkerGroup._id)?.visible) {
+                                <mat-icon>visibility</mat-icon>
+                                }
+                                @else {
+                                <mat-icon>visibility_off</mat-icon>
+                                }
+                            </button>
                         </mat-panel-title>
                         <mat-panel-description>
                             {{ pointMarkerGroup.name }}
