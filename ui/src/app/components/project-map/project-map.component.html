@@ -1,24 +1,84 @@
 <div class="body">
     <div class="map">
         <google-map width="100%" height="100%" [options]="options" (mapInitialized)="mapInitialized()"
-            (boundsChanged)="boundsChanged()" #map>
+            (boundsChanged)="boundsChanged()" (mapMousemove)="mapMousemove($event)" (mapMouseout)="mapMouseout()" #map>
             @if (syncService.streetViewPosition$ | async; as streetViewPosition;) {
             <map-marker [position]="streetViewPosition" [label]="streetViewLabel" />
             }
             @if (syncService.map3dCenterPosition$| async; as map3dCenterPosition;) {
             <map-marker [position]="map3dCenterPosition" [label]="map3dLabel" />
             }
+
+            @if (activePointMarkerGroup && activeMousePosition) {
+            <map-marker [position]="activeMousePosition" [icon]="activeMousePositionIcon"
+                (mapClick)="mapClick()"></map-marker>
+            }
+
+            @for (expandedPointMarkerGroup of expandedPointMarkerGroups; track expandedPointMarkerGroup[0]) {
+            @if (expandedPointMarkerGroup[1].visible) {
+            @if (expandedPointMarkerGroup[1].pointMarkers| async; as pointMarkers) {
+            @for (pointMarker of pointMarkers; track $index) {
+            <map-marker [position]="pointMarker.point" [icon]="expandedPointMarkerGroup[1].icon" />
+            }
+            }
+            }
+            }
         </google-map>
     </div>
 
     <div class="control">
-        <button mat-stroked-button color="accent" (click)="panToStreetView()" [disabled]="!(syncService.streetViewPosition$ | async)">
+        <button mat-stroked-button color="accent" (click)="panToStreetView()"
+            [disabled]="!(syncService.streetViewPosition$ | async)">
             <mat-icon>man</mat-icon>
             Move to street view position
         </button>
-        <button mat-stroked-button color="accent" (click)="panToMap3dCenter()" [disabled]="!(syncService.map3dCenterPosition$ | async)">
+        <button mat-stroked-button color="accent" (click)="panToMap3dCenter()"
+            [disabled]="!(syncService.map3dCenterPosition$ | async)">
             <mat-icon>3d_rotation</mat-icon>
             Move to 3d map position
         </button>
+
+        <div class="point-marker-groups">
+            <div class="heading">
+                <h4>Point Markers</h4>
+                <button mat-icon-button (click)="createPointMarkerGroup()">
+                    <mat-icon>add</mat-icon>
+                </button>
+            </div>
+
+            @if (pointMarkerGroups$ | async; as pointMarkerGroups) {
+            <mat-accordion>
+                @for (pointMarkerGroup of pointMarkerGroups; track $index) {
+                <mat-expansion-panel (expandedChange)="pointMarkerGroupExpandedChange($event, pointMarkerGroup)" #panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <div class="color" [style.background-color]="pointMarkerGroup.color"></div>
+                            <button mat-icon-button class="visibility" (click)="pointMarkerGroupVisibleChange(panel, pointMarkerGroup)">
+                                @if (expandedPointMarkerGroups.get(pointMarkerGroup._id)?.visible) {
+                                <mat-icon>visibility</mat-icon>
+                                }
+                                @else {
+                                <mat-icon>visibility_off</mat-icon>
+                                }
+                            </button>
+                        </mat-panel-title>
+                        <mat-panel-description>
+                            {{ pointMarkerGroup.name }}
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    
+                    <p>
+                        Place new points on the map!
+                    </p>
+                </mat-expansion-panel>
+                }
+            </mat-accordion>
+            }
+            @else {
+            <div class="loading">
+                <mat-progress-bar mode="indeterminate" color="accent"></mat-progress-bar>
+            </div>
+            }
+        </div>
     </div>
 </div>

@@ -25,4 +25,27 @@ class ProjectDto(BaseModel):
     description: str
     view: MapView
     goal: Optional[Point] = None
-    
+
+class PointMarkerGroup(BaseModel):
+    id: PyObjectId = Field(
+        alias='_id',
+    )
+    project: str
+    name: str
+    color: str
+
+class PointMarkerGroupDto(BaseModel):
+    project: str
+    name: str
+    color: str
+
+class PointMarker(BaseModel):
+    id: PyObjectId = Field(
+        alias='_id',
+    )
+    group: str
+    point: Point
+
+class PointMarkerDto(BaseModel):
+    group: str
+    point: Point

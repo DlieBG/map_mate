@@ -10,3 +10,5 @@ _mongo = MongoClient(
 _db = _mongo.get_database('map_mate')
 
 projects = _db.get_collection('projects')
+marker_groups = _db.get_collection('marker-groups')
+markers = _db.get_collection('markers')
